@@ -43,7 +43,8 @@ def rnn_encoder_single_layer(rnn_type, input, seq_len, d_dim, initializer):
             with tf.compat.v1.variable_scope(d):
                 #cell[d] = tf.compat.v1.nn.rnn_cell.CoupledInputForgetGateLSTMCell(d_dim, forget_bias=1.0, initializer=initializer, state_is_tuple=True)
                 #cell[d] = tf.contrib.rnn.CoupledInputForgetGateLSTMCell(d_dim, forget_bias=1.0, initializer=initializer, state_is_tuple=True)
-                cell[d] = tfa.rnn.LayerNormLSTMCell(d_dim, forget_bias=1.0, initializer=initializer, state_is_tuple=True)
+                cell[d] = tfa.rnn.LayerNormLSTMCell(d_dim, unit_forget_bias=True)
+                #cell[d] = tfa.rnn.LayerNormLSTMCell(d_dim, forget_bias=1.0, initializer=initializer, state_is_tuple=True)
                 i_cell = tf.compat.v1.get_variable(d + 'i_cell', shape=[1, d_dim], dtype=tf.float32, initializer=initializer)
 
                 i_output = tf.compat.v1.get_variable(d + 'i_output', shape=[1, d_dim], dtype=tf.float32, initializer=initializer)
